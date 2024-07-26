@@ -10,6 +10,7 @@
   user-select: none;
   position: relative;
   animation-duration: .5s all;
+  background-color: #d3ffe6;
 }
 
 .square {
