@@ -9,8 +9,6 @@ function App() {
   const [win, setWin] = useState(null);
   const width = window.innerWidth;
   const height = window.innerHeight;
-  const [fromTop, setFromTop] = useState(0);
-  const [degree, setDegree] = useState(90);
   const [style, setStyle] = useState({
     top: 0,
     rotate: 0,
@@ -28,6 +26,14 @@ function App() {
     [0, 4, 8],
     [2, 4, 6],
   ];
+
+  const Restart = () => {
+    setWin(null);
+    setValue(() => {
+      const newValue = Array(9).fill(0);
+      return newValue;
+    });
+  };
 
   useEffect(() => {
     if (value[0] == value[1] && value[1] == value[2] && value[1] != 0) {
@@ -96,6 +102,9 @@ function App() {
         rotate: 225,
       }));
     }
+    if (value.every((x) => x != 0)) {
+      Restart();
+    }
   }, [value]);
 
   const handleClick = (value, index) => {
@@ -112,13 +121,6 @@ function App() {
     });
   };
 
-  const Restart = () => {
-    setWin(null);
-    setValue(() => {
-      const newValue = Array(9).fill(0);
-      return newValue;
-    });
-  };
   const Reset = () => {
     setValue(Array(9).fill(0));
   };
