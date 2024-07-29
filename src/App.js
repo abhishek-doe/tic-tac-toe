@@ -9,6 +9,7 @@ function App() {
   const [win, setWin] = useState(null);
   const width = window.innerWidth;
   const height = window.innerHeight;
+  const [combinationIdx, setCombinatioIdx] = useState(null);
   const [style, setStyle] = useState({
     top: 0,
     rotate: 0,
@@ -29,15 +30,22 @@ function App() {
 
   const Restart = () => {
     setWin(null);
-    setValue(() => {
-      const newValue = Array(9).fill(0);
-      return newValue;
-    });
+    setSquare([]);
+    setValue(new Array(9).fill(0));
   };
 
   useEffect(() => {
+    combination.forEach((item, index) => {
+      if (
+        value[item[0]] == value[item[1]] &&
+        value[item[1]] == value[item[2]] &&
+        value[item[0]] != 0
+      ) {
+        setWin(() => value[item[0]]);
+        setCombinatioIdx(() => index);
+      }
+    });
     if (value[0] == value[1] && value[1] == value[2] && value[1] != 0) {
-      setWin(() => value[0]);
       setStyle(() => ({
         height: 16,
         top: -3.7,
@@ -45,7 +53,6 @@ function App() {
       }));
     }
     if (value[3] == value[4] && value[4] == value[5] && value[3] != 0) {
-      setWin(() => value[3]);
       setStyle(() => ({
         height: 16,
         top: 3,
@@ -53,7 +60,6 @@ function App() {
       }));
     }
     if (value[6] == value[7] && value[7] == value[8] && value[6] != 0) {
-      setWin(() => value[6]);
       setStyle(() => ({
         height: 16,
         top: 9.5,
@@ -61,7 +67,6 @@ function App() {
       }));
     }
     if (value[0] == value[3] && value[3] == value[6] && value[0] != 0) {
-      setWin(() => value[0]);
       setStyle(() => ({
         height: 16,
         top: 3,
@@ -69,7 +74,6 @@ function App() {
       }));
     }
     if (value[1] == value[4] && value[4] == value[7] && value[1] != 0) {
-      setWin(() => value[1]);
       setStyle(() => ({
         height: 16,
         top: 3,
@@ -77,7 +81,6 @@ function App() {
       }));
     }
     if (value[2] == value[5] && value[5] == value[8] && value[2] != 0) {
-      setWin(() => value[2]);
       setStyle(() => ({
         height: 16,
         top: 3,
@@ -85,7 +88,6 @@ function App() {
       }));
     }
     if (value[0] == value[4] && value[4] == value[8] && value[0] != 0) {
-      setWin(() => value[0]);
       setStyle(() => ({
         height: 22,
         left: 9.9,
@@ -94,7 +96,6 @@ function App() {
       }));
     }
     if (value[2] == value[4] && value[4] == value[6] && value[2] != 0) {
-      setWin(() => value[2]);
       setStyle(() => ({
         height: 22,
         top: -0.5,
@@ -102,7 +103,7 @@ function App() {
         rotate: 225,
       }));
     }
-    if (value.every((x) => x != 0)) {
+    if (value.every((x) => x != 0) && win == null) {
       Restart();
     }
   }, [value]);
@@ -121,9 +122,6 @@ function App() {
     });
   };
 
-  const Reset = () => {
-    setValue(Array(9).fill(0));
-  };
   return (
     <div className="App">
       {win != null ? (
@@ -139,7 +137,7 @@ function App() {
       ) : (
         <>
           <h1>Game Started</h1>
-          <button className="glow-on-hover" onClick={() => Reset()}>
+          <button className="glow-on-hover" onClick={() => Restart()}>
             Reset Game
           </button>
         </>
